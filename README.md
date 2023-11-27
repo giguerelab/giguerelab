@@ -5,11 +5,12 @@ Here you will find shared lab resources and workflows for **ChIP-Seq**, **RNA-Se
 
 ## Table of Contents
 > 1. [Getting Started](https://github.com/giguerelab/giguerelab/edit/main/README.md#getting-started)
-> 2. [Pipelines](https://github.com/giguerelab/giguerelab/edit/main/README.md#pipelines)
+> 2. Downloading Data from Databases
+> 3. [Pipelines](https://github.com/giguerelab/giguerelab/edit/main/README.md#pipelines)
 >    - [RNA-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#rna-seq)
 >    - [ChIP-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#chip-seq)
 >    - [ATAC-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#atac-seq)
-> 3. [Additional Resources](https://github.com/giguerelab/giguerelab/edit/main/README.md#additional-resources)
+> 4. [Additional Resources](https://github.com/giguerelab/giguerelab/edit/main/README.md#additional-resources)
 >    - [Databases/Data Visualization Tools](https://github.com/giguerelab/giguerelab/edit/main/README.md#databases)
 >    - [AI Tools](https://github.com/giguerelab/giguerelab/edit/main/README.md#ai-tools)
   
@@ -21,7 +22,7 @@ In order to perform these workflows, you will need access to high-performance co
 - [Narval (ÉTS, Montréal)(1 TB Project Storage)](https://docs.alliancecan.ca/wiki/Narval/en)
 - [Niagara (UToronto, Toronto)](https://docs.alliancecan.ca/wiki/Niagara)
 
-**I recommend that you log in to the Béluga cluster.**
+> I recommend that you log in to the Béluga cluster.
 
 To securely connect to a remote cluster, open a shell or terminal (bash preferably) and type the following command to login to a secure shell (SSH) which will look something like this: 
 
@@ -133,6 +134,10 @@ ls $MUGQIC_INSTALL_HOME/genomes/species/Homo_sapiens.hg19/
 
 Now you are all set to run GenPipes analysis pipelines!
 
+## Downloading Data from Databases
+
+To download genomic data from an experiment, enter the Gene Expression Omnibus (GEO) accession number (you can find this in the Data Availabilty section of a paper) into GEO. 
+
 ## Pipelines
 
 ### RNA-Seq
@@ -163,9 +168,43 @@ RNA-Seq Stringtie Workflow:
 
 To run the pipeline, you will need to create two files: a readset.txt file and a design.txt file. 
 
-A readset file 
+A readset file is a tab-separated plain text file that contains the following information:
+- Sample: must contain letters A-Z, numbers 0-9, hyphens (-) or underscores (_) only; BAM files will be merged into a file named after this value **(mandatory)**. Think of them as biological replicates.
+- Readset: a unique readset name with the same allowed characters as above**(mandatory)**. Think of them as technical replicates.
+- Library: optional.
+- RunType: PAIRED_END or SINGLE_END **(mandatory)**.
+- Run: optional.
+- Lane: optional.
+- Adapter1: sequence of the forward trimming adapter.
+- Adapter2: sequence of the reverse trimmign adapter.
+- QualityOffset: quality score offset integer used for trimming (optional).
+- BED: relative or absolute path to BED file (optional).
+- FASTQ1: relative or absolute path to first FASTQ file for paired-end readset or single FASTQ file for single-end readset **(mandatory if BAM value is missing)**.
+- FASTQ2: relative or absolute path to second FASTQ file for paired-end readset **(mandatory if RunType value is “**`PAIRED_END`**”)**.
+- BAM: relative or absolute path to BAM file which will be converted into FASTQ files if they are not available **(mandatory if FASTQ1 value is missing, ignored otherwise)**.
 
-A design file
+Example:
+
+```
+Sample Readset Library RunType Run Lane Adapter1 Adapter2 QualityOffset BED FASTQ1 FASTQ2 BAM
+sampleA readset1 lib0001 PAIRED_END run100 1 AGATCGGAAGAGCACACGTCTGAACTCCAGTCA AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT 33 path/to/file.bed path/to/readset1.paired1.fastq.gz path/to/readset1.paired2.fastq.gz path/to/readset1.bam
+sampleA readset2 lib0001 PAIRED_END run100 2 AGATCGGAAGAGCACACGTCTGAACTCCAGTCA AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT 33 path/to/file.bed path/to/readset2.paired1.fastq.gz path/to/readset2.paired2.fastq.gz path/to/readset2.bam
+sampleB readset3 lib0002 PAIRED_END run200 5 AGATCGGAAGAGCACACGTCTGAACTCCAGTCA AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT 33 path/to/file.bed path/to/readset3.paired1.fastq.gz path/to/readset3.paired2.fastq.gz path/to/readset3.bam
+sampleB readset4 lib0002 PAIRED_END run200 6 AGATCGGAAGAGCACACGTCTGAACTCCAGTCA AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT 33 path/to/file.bed path/to/readset4.paired1.fastq.gz path/to/readset4.paired2.fastq.gz path/to/readset4.bam
+```
+
+If some optional information is missing, leave its position empty. 
+
+A design file is a tab-separated plain text file with one line per sample and the following columns:
+
+|Sample  |Contrast_AB | Contrast_AC |
+|:------:|:----------:|:-----------:|
+|sampleA |1           |1            |
+|sampleB |2           |0            |
+|sampleC |0           |2            |
+|sampleD |0           |0            |
+
+>You can add several contrasts per design
 
 Human
 
@@ -227,6 +266,7 @@ bash atacseqScript.txt
 - [Cistrome Project](http://cistrome.org/)
 - [ENCODE Project](https://www.encodeproject.org/)
 - [GepLiver](http://www.gepliver.org/#/home)
+- [Gene Expression Omnibus (GEO)](https://www.ncbi.nlm.nih.gov/geo/)
 - [GTEx](https://www.gtexportal.org/home/)
 - [RCSB Protein Data Bank](https://www.rcsb.org/)
 - [UCSC Genome Browser](https://genome.ucsc.edu/)

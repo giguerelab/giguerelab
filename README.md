@@ -3,17 +3,6 @@ Welcome to the Giguère lab's GitHub page!
 
 Here you will find shared lab resources and workflows for **ChIP-Seq**, **RNA-Seq**, and **ATAC-Seq** data analysis.
 
-## Table of Contents
-> 1. [Getting Started](https://github.com/giguerelab/giguerelab/edit/main/README.md#getting-started)
-> 2. Downloading Data from Databases
-> 3. [Pipelines](https://github.com/giguerelab/giguerelab/edit/main/README.md#pipelines)
->    - [RNA-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#rna-seq)
->    - [ChIP-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#chip-seq)
->    - [ATAC-Seq](https://github.com/giguerelab/giguerelab/edit/main/README.md#atac-seq)
-> 4. [Additional Resources](https://github.com/giguerelab/giguerelab/edit/main/README.md#additional-resources)
->    - [Databases/Data Visualization Tools](https://github.com/giguerelab/giguerelab/edit/main/README.md#databases)
->    - [AI Tools](https://github.com/giguerelab/giguerelab/edit/main/README.md#ai-tools)
-  
 ## Getting Started
 In order to perform these workflows, you will need access to high-performance computing (HPC). To do this, you will need to apply for an account on [Compute Canada](https://ccdb.alliancecan.ca/). You will need your PI to approve your account. Once your account has been approved, you will have access to the CCDB HPC. This account gives you access to the following clusters:
 - [Béluga (ÉTS, Montréal)(1 TB Project Storage)](https://docs.alliancecan.ca/wiki/B%C3%A9luga/en)
@@ -133,48 +122,6 @@ ls $MUGQIC_INSTALL_HOME/genomes/species/Homo_sapiens.hg19/
 ```
 
 Now you are all set to run GenPipes analysis pipelines!
-
-## Downloading Data from Databases
-
-To download genomic data from an experiment, enter the Gene Expression Omnibus (GEO) accession number (you can find this in the Data Availabilty section of a paper) into GEO. 
-
-## Pipelines
-
-### ChIP-Seq/ATAC-Seq
-
-#### ChIP-Seq
-Human
-
-```
-#!/bin/bash
-chipseq.py -c $MUGQIC_PIPELINES_HOME/pipelines/chipseq/chipseq.base.ini $MUGQIC_PIPELINES_HOME/pipelines/common_ini/beluga.ini $MUGQIC_INSTALL_HOME/genomes/species/Homo_sapiens.GRCh38/Homo_sapiens.GRCh38.ini -r readset.txt -t chipseq -s 2-23 -g chipseqScript.txt
-bash chipseqScript.txt
-```
-
-Mouse
-
-```
-#!/bin/bash
-chipseq.py -c $MUGQIC_PIPELINES_HOME/pipelines/chipseq/chipseq.base.ini $MUGQIC_PIPELINES_HOME/pipelines/common_ini/beluga.ini $MUGQIC_INSTALL_HOME/genomes/species/Mus_musculus.GRCm38/Mus_musculus.GRCm38.ini -r readset.txt -t chipseq -s 2-23 -g chipseqScript.txt
-bash chipseqScript.txt
-```
-
-#### ATAC-Seq
-Human
-
-```
-#!/bin/bash
-chipseq.py -c $MUGQIC_PIPELINES_HOME/pipelines/chipseq/chipseq.base.ini $MUGQIC_PIPELINES_HOME/pipelines/common_ini/beluga.ini $MUGQIC_INSTALL_HOME/genomes/species/Homo_sapiens.GRCh38/Homo_sapiens.GRCh38.ini -r readset.txt -t atacseq -s 2-23 -g atacseqScript.txt
-bash atacseqScript.txt
-```
-
-Mouse
-
-```
-#!/bin/bash
-chipseq.py -c $MUGQIC_PIPELINES_HOME/pipelines/chipseq/chipseq.base.ini $MUGQIC_PIPELINES_HOME/pipelines/common_ini/beluga.ini $MUGQIC_INSTALL_HOME/genomes/species/Mus_musculus.GRCm38/Mus_musculus.GRCm38.ini -r readset.txt -t atacseq -s 2-23 -g atacseqScript.txt
-bash atacseqScript.txt
-```
 
 ## Additional Resources
 
